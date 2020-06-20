@@ -1,0 +1,42 @@
+##################################################################################################
+# scriptable and usable for event-system below.
+##################################################################################################
+
+flourishing_economy = {
+	local_tax_modifier = 0.10
+}
+
+flourishing_economy_2 = {
+	local_tax_modifier = 0.25
+}
+
+flourishing_trade = {
+	province_trade_power_value = 10
+	province_trade_power_modifier = 0.10
+	trade_goods_size = 0.25
+}
+
+btot_sacked = {
+	trade_goods_size = -0.10
+	local_tax_modifier = -0.25				#25% less tax income.
+	province_trade_power_modifier = -0.10	#10% less trade power
+	regiment_recruit_speed = 0.2
+	ship_recruit_speed = 0.2
+	supply_limit_modifier = -0.05
+	local_manpower_modifier = -0.25
+}
+
+migration_to_capital = {
+	local_tax_modifier = -0.05
+}
+
+fleeing_from_conversion = {
+	local_tax_modifier = -0.20
+	local_manpower_modifier = -0.20
+	local_unrest = 2
+}
+
+btot_recovering_siege = {
+	local_tax_modifier = -0.10
+	local_manpower_modifier = -0.10
+}

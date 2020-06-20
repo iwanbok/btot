@@ -1,0 +1,31 @@
+# INSTRUCTIONS:
+# -------------
+# is_triggered_only - Triggered from within the code or by event effects. DO NOT REMOVE THE STOCK ONES.
+# months - The number of months this CB will be valid. Only works for triggered CBs.
+# prerequisites - A condition that automatically activates a CB. Does not work for triggered CBs.
+# no_opinion_hit - If yes you get no negative opinion from this
+#
+# ROOT = attacker
+# FROM = target
+#
+# NOTE: The order in which the peace options are listed is the order in which the AI will normally prioritize them in peace treaties
+#
+# TRIGGERED - Triggered from within the code or by event effects
+# --------------------------------------------------------------
+
+# Defender of faith discovers conversion
+cb_stop_conversion = {
+
+	months = 24
+	
+	prerequisites = {
+		is_defender_of_faith = yes
+		NOT = {	religion = FROM }
+		FROM = {any_owned_province = {
+			has_province_modifier = fleeing_from_conversion
+			religion = ROOT
+		} }
+	}
+	
+	war_goal = stop_province_conversion
+}

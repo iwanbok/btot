@@ -1,0 +1,486 @@
+namespace = btot
+
+#looters
+country_event = {
+	id = btot.1
+	title = btot_EVTNAME1
+	desc = btot_EVTDESC1
+	picture = SIEGE_eventPicture
+	
+	trigger = {
+		OR = {
+			root = {tag = REB}
+			from = {
+				owner = {
+					war_with = root
+				}
+			}
+		}
+		from = {NOT = {has_province_flag = looted}}
+		from = {NOT = {has_province_modifier = btot_sacked}}
+        from = {fort_level = 1}
+	}
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = btot_EVTOPTA1
+		ai_chance = {
+			factor = 30
+		}
+	}
+	
+	option = {
+		name = btot_EVTOPTB1
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				OR = {
+					primary_culture = from
+					from = {is_claim=ROOT}
+					from = {is_core=ROOT}
+					AND = {
+						from = {owner = {NOT = {religion=ROOT}}}
+						religion = from
+					}
+				}
+			}
+		}
+		from = {
+			hidden = {
+				set_province_flag = btot_sacked_siege
+			}
+            tooltip = {
+                add_province_modifier = {
+                    name = "btot_sacked"
+                    duration = 3650
+                }
+            }
+			province_event = {id=btot.8}
+		}
+		add_treasury = 25
+	}
+	
+	option = {
+		name = btot_EVTOPTC1
+		ai_chance = {
+			factor = 15
+			modifier = {
+				factor = 0
+				OR = {
+					primary_culture = from
+					from = {is_claim=ROOT}
+					from = {is_core=ROOT}
+					AND = {
+						from = {owner = {NOT = {religion=ROOT}}}
+						religion = from
+					}
+				}
+			}
+		}
+		from = {
+			hidden = {
+				set_province_flag = looted
+			}
+            tooltip = {
+                add_base_tax = -1
+                add_province_modifier = {
+                    name = "btot_recovering_siege"
+                    duration = 365
+                }
+            }
+			province_event = {id=btot.9}
+		}
+		add_prestige=5
+	}
+}
+
+#base tax increase
+province_event = {
+	id = btot.2
+	title = btot_EVTNAME2
+	desc = btot_EVTDESC2
+	picture = FEAST_eventPicture
+	
+	trigger = {
+		owner ={
+			is_at_war = no
+			has_any_disaster = no
+			NOT = { num_of_revolts = 1 }
+			NOT = { any_owned_province = { has_province_modifier = flourishing_economy }}
+			NOT = { any_owned_province = { has_province_modifier = flourishing_economy_2 }}
+			NOT = { any_owned_province = { has_province_modifier = flourishing_trade }}
+			NOT = { any_owned_province = { has_province_modifier = btot_sacked }}
+		}
+		has_owner_religion = yes
+		owner = {
+			OR = {
+				primary_culture = ROOT
+				accepted_culture = ROOT
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 480
+		modifier = {
+			factor = 0.9
+			owner = {adm = 6}
+		}
+		modifier = {
+			factor = 0.9
+			owner = {adm = 5}
+		}
+		modifier = {
+			factor = 0.9
+			owner = {adm = 4}
+		}
+		modifier = {
+			factor = 1.1
+			NOT = {owner = {adm = 3}}
+		}
+		modifier = {
+			factor = 1.2
+			NOT = {owner = {adm = 2}}
+		}
+		modifier = {
+			factor = 1.25
+			NOT = {owner = {adm = 1}}
+		}
+	}
+	
+	option = {
+		name = btot_EVTOPTA2
+		if = {
+			limit = {
+				NOT = {
+					base_tax = 25
+				}
+			}}
+			add_base_tax = 1
+			add_base_manpower = 1
+			
+			add_province_modifier = {
+				name = "flourishing_economy"
+				duration = 1825
+			}
+		}
+		if = {
+			limit = {
+				base_tax = 25
+			}
+			
+			
+			add_base_manpower = 1
+			
+			add_province_modifier = {
+				name = "flourishing_economy_2"
+				duration = 1825
+			}
+		}		
+	}
+}
+
+#trade increase
+province_event = {
+	id = btot.3
+	title = btot_EVTNAME3
+	desc = btot_EVTDESC3
+	picture = FEAST_eventPicture
+	
+	trigger = {
+		owner ={
+			is_at_war = no
+			has_any_disaster = no
+			NOT = { num_of_revolts = 1 }
+			NOT = { any_owned_province = { has_province_modifier = flourishing_economy }}
+			NOT = { any_owned_province = { has_province_modifier = flourishing_economy_2 }}
+			NOT = { any_owned_province = { has_province_modifier = flourishing_trade }}
+			NOT = { any_owned_province = { has_province_modifier = btot_sacked }}
+			trade_income_percentage = 0.5
+		}
+		has_owner_religion = yes
+		owner = {
+			OR = {
+				primary_culture = ROOT
+				accepted_culture = ROOT
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 480
+		modifier = {
+			factor = 0.9
+			owner = {dip = 6}
+		}
+		modifier = {
+			factor = 0.9
+			owner = {dip = 5}
+		}
+		modifier = {
+			factor = 0.9
+			owner = {dip = 4}
+		}
+		modifier = {
+			factor = 1.1
+			NOT = {owner = {dip = 3}}
+		}
+		modifier = {
+			factor = 1.2
+			NOT = {owner = {dip = 2}}
+		}
+		modifier = {
+			factor = 1.25
+			NOT = {owner = {dip = 1}}
+		}
+	}
+	
+	option = {
+		name = btot_EVTOPTA3
+		add_province_modifier = {
+			name = "flourishing_trade"
+			duration = 1825
+		}
+		
+		add_base_manpower = 1
+	}
+}
+
+#retaking land from occupation
+province_event = {
+	id = btot.4
+	title = btot_EVTNAME4
+	desc = btot_EVTDESC4
+	picture = SIEGE_eventPicture
+	
+	trigger = {
+		AND = {
+			from = {NOT = {tag = REB}}
+			root = {
+				owner = {
+					war_with = from
+				}
+			}
+		}
+	}
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = btot_EVTOPTA4
+		random_list = {
+			75 = { 	}
+			25 = {
+				root = {
+					infantry = owner
+					infantry = owner
+				} 
+			}
+		}
+		hidden = {
+			if = {
+				limit = {
+					has_province_flag = looted
+				}
+				clr_province_flag = looted
+			}
+		}
+		if = {
+			limit = {
+				NOT = {has_province_modifier = btot_sacked}
+			}
+			add_province_modifier = {
+				name = "btot_recovering_siege"
+				duration = 182
+			}
+		}
+	}
+}
+
+#migration to the capital
+province_event = {
+	id = btot.5
+	title = btot_EVTNAME5
+	desc = btot_EVTDESC5
+	picture = UNIVERSITY_eventPicture
+	
+	trigger = {
+		is_capital = no
+		owner = {
+			NOT = { any_owned_province = { has_province_modifier = migration_to_capital } }
+			capital_scope = {
+				NOT = { base_tax = 25 }
+			}
+		}
+	}
+	
+	mean_time_to_happen = {
+		months = 600
+		modifier = {
+			factor = 5
+			has_owner_religion = no
+		}
+		modifier = {
+			factor = 2
+			NOT = { owner = {
+				OR = {
+					primary_culture = ROOT
+					accepted_culture = ROOT
+				}
+			} }
+		}
+	}
+	
+	option = {
+		name = btot_EVTOPTA5
+		owner = { 
+			capital_scope = { 
+				add_base_tax = 1
+				add_province_manpower = 1
+			} 
+		}
+		ROOT = { 
+			add_base_tax = -1
+			add_province_manpower = -1
+			add_province_modifier = {
+				name = "migration_to_capital"
+				duration = 3650
+			}
+		}
+	}
+}
+
+#fleeing from conversion
+province_event = {
+	id = btot.6
+	title = btot_EVTNAME6
+	desc = btot_EVTDESC6
+	picture = UNIVERSITY_eventPicture
+	
+	trigger = {
+		has_missionary = yes
+		NOT = {has_province_modifier = fleeing_from_conversion}
+	}
+	
+	mean_time_to_happen = {
+		months = 24
+		modifier = {
+			factor = 10
+			NOT = {unrest = 0}
+		}
+	}
+	
+	option = {
+		name = btot_EVTOPTA6
+		ROOT = { 
+			add_province_modifier = {
+				name = "fleeing_from_conversion"
+				duration = 730
+			}
+		}
+		if = {
+			limit = {
+				any_neighbor_province = {
+					is_reformation_center = yes
+					religion = root
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					is_reformation_center = yes
+					religion = root
+				}
+				add_base_tax = 1
+			}
+			root = {
+				add_base_tax = -1
+			}
+		}
+		if = { 
+			limit = {
+				any_neighbor_province = {
+					religion = root
+				}
+				every_neighbor_province = {
+					is_reformation_center = no
+				}
+			}
+			random_neighbor_province = {
+				limit = {
+					religion = root
+				}
+				add_base_tax = 1
+			}
+			root = {
+				add_base_tax = -1
+			}
+		}
+	}
+}
+
+#recovering after sacking
+province_event = {
+	id = btot.7
+	title = btot_EVTNAME7
+	desc = btot_EVTDESC7
+	picture = SIEGE_eventPicture
+	
+	trigger = {
+		has_province_flag = btot_sacked_siege
+		NOT = {has_province_modifier = btot_sacked}
+	}
+	
+	mean_time_to_happen = {
+		days = 1
+	}
+	
+	option = {
+		name = btot_EVTOPTA7
+		hidden = {
+			clr_province_flag = btot_sacked_siege
+		}
+		add_province_modifier = {
+			name = "btot_recovering_siege"
+			duration = 365
+		}
+	}
+}
+
+#province is sacked
+province_event = {
+	id = btot.8
+	title = btot_EVTNAME8
+	desc = btot_EVTDESC8
+	picture = SIEGE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = btot_EVTOPTA8
+        add_province_modifier = {
+            name = "btot_sacked"
+            duration = 3650
+        }
+	}
+}
+
+#province is looted
+province_event = {
+	id = btot.9
+	title = btot_EVTNAME9
+	desc = btot_EVTDESC9
+	picture = SIEGE_eventPicture
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = btot_EVTOPTA9
+        add_base_tax = -1
+        add_province_modifier = {
+            name = "btot_recovering_siege"
+            duration = 365
+        }
+	}
+}
