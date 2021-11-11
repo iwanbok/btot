@@ -16,9 +16,8 @@ country_event = {
 				}
 			}
 		}
-		from = {NOT = {has_province_flag = looted}}
-		from = {NOT = {has_province_modifier = btot_sacked}}
         from = {fort_level = 1}
+		from = {NOT = {has_province_modifier = btot_sacked}}
 	}
 	
 	is_triggered_only = yes
@@ -47,16 +46,21 @@ country_event = {
 				}
 			}
 		}
+		
 		from = {
-			hidden = {
-				set_province_flag = btot_sacked_siege
+			set_province_flag = btot_sacked_siege
+			tooltip = {
+				if = {
+					limit = {
+						has_province_modifier = btot_recovering_siege
+					}
+					remove_province_modifier = btot_recovering_siege
+				}
+				add_province_modifier = {
+					name = "btot_sacked"
+					duration = 3650
+				}
 			}
-            tooltip = {
-                add_province_modifier = {
-                    name = "btot_sacked"
-                    duration = 3650
-                }
-            }
 			province_event = {id=btot.8}
 		}
 		add_treasury = 25
@@ -64,6 +68,9 @@ country_event = {
 	
 	option = {
 		name = btot_EVTOPTC1
+		trigger = {
+			from={NOT = {has_province_modifier = btot_recovering_siege}}
+		}
 		ai_chance = {
 			factor = 15
 			modifier = {
@@ -80,17 +87,14 @@ country_event = {
 			}
 		}
 		from = {
-			hidden = {
-				set_province_flag = looted
+			tooltip = {
+				add_base_tax = -1
+				add_province_modifier = {
+					name = "btot_recovering_siege"
+					duration = 182
+				}
 			}
-            tooltip = {
-                add_base_tax = -1
-                add_province_modifier = {
-                    name = "btot_recovering_siege"
-                    duration = 365
-                }
-            }
-			province_event = {id=btot.9}
+			province_event = { id=btot.9 }
 		}
 		add_prestige=5
 	}
@@ -279,14 +283,6 @@ province_event = {
 				} 
 			}
 		}
-		hidden = {
-			if = {
-				limit = {
-					has_province_flag = looted
-				}
-				clr_province_flag = looted
-			}
-		}
 		if = {
 			limit = {
 				NOT = {has_province_modifier = btot_sacked}
@@ -352,74 +348,6 @@ province_event = {
 	}
 }
 
-#fleeing from conversion
-province_event = {
-	id = btot.6
-	title = btot_EVTNAME6
-	desc = btot_EVTDESC6
-	picture = UNIVERSITY_eventPicture
-	
-	trigger = {
-		has_missionary = yes
-		NOT = {has_province_modifier = fleeing_from_conversion}
-	}
-	
-	mean_time_to_happen = {
-		months = 24
-		modifier = {
-			factor = 10
-			NOT = {unrest = 0}
-		}
-	}
-	
-	option = {
-		name = btot_EVTOPTA6
-		ROOT = { 
-			add_province_modifier = {
-				name = "fleeing_from_conversion"
-				duration = 730
-			}
-		}
-		if = {
-			limit = {
-				any_neighbor_province = {
-					is_reformation_center = yes
-					religion = root
-				}
-			}
-			random_neighbor_province = {
-				limit = {
-					is_reformation_center = yes
-					religion = root
-				}
-				add_base_tax = 1
-			}
-			root = {
-				add_base_tax = -1
-			}
-		}
-		if = { 
-			limit = {
-				any_neighbor_province = {
-					religion = root
-				}
-				every_neighbor_province = {
-					is_reformation_center = no
-				}
-			}
-			random_neighbor_province = {
-				limit = {
-					religion = root
-				}
-				add_base_tax = 1
-			}
-			root = {
-				add_base_tax = -1
-			}
-		}
-	}
-}
-
 #recovering after sacking
 province_event = {
 	id = btot.7
@@ -459,10 +387,16 @@ province_event = {
 	
 	option = {
 		name = btot_EVTOPTA8
-        add_province_modifier = {
-            name = "btot_sacked"
-            duration = 3650
-        }
+		if = {
+			limit = {
+				has_province_modifier = btot_recovering_siege
+			}
+			remove_province_modifier = btot_recovering_siege
+		}
+		add_province_modifier = {
+			name = "btot_sacked"
+			duration = 3650
+		}
 	}
 }
 
@@ -477,10 +411,10 @@ province_event = {
 	
 	option = {
 		name = btot_EVTOPTA9
-        add_base_tax = -1
-        add_province_modifier = {
-            name = "btot_recovering_siege"
-            duration = 365
-        }
+		add_base_tax = -1
+		add_province_modifier = {
+			name = "btot_recovering_siege"
+			duration = 365
+		}
 	}
 }

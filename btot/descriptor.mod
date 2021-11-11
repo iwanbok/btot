@@ -4,5 +4,5 @@ tags={
 	"Gameplay"
 }
 name="Base tax over time"
-supported_version="1.30.2"
+supported_version="1.32"
 remote_file_id="405767497"
