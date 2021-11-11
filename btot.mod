@@ -4,5 +4,5 @@ tags={
 	"Gameplay"
 }
 name="Base tax over time"
-supported_version="1.30.2"
+supported_version="1.32"
 path="mod/btot"
