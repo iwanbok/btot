@@ -9,15 +9,15 @@ country_event = {
 	
 	trigger = {
 		OR = {
-			root = {tag = REB}
+			root = { tag = REB }
 			from = {
 				owner = {
 					war_with = root
 				}
 			}
 		}
-        from = {fort_level = 1}
-		from = {NOT = {has_province_modifier = btot_sacked}}
+        from = { fort_level = 1 }
+		from = { NOT = { has_province_modifier = btot_sacked } }
 	}
 	
 	is_triggered_only = yes
@@ -37,10 +37,10 @@ country_event = {
 				factor = 0
 				OR = {
 					primary_culture = from
-					from = {is_claim=ROOT}
-					from = {is_core=ROOT}
+					from = { is_claim = ROOT }
+					from = { is_core = ROOT }
 					AND = {
-						from = {owner = {NOT = {religion=ROOT}}}
+						from = { owner = { NOT = { religion = ROOT } } }
 						religion = from
 					}
 				}
@@ -48,7 +48,6 @@ country_event = {
 		}
 		
 		from = {
-			set_province_flag = btot_sacked_siege
 			tooltip = {
 				if = {
 					limit = {
@@ -56,7 +55,7 @@ country_event = {
 					}
 					remove_province_modifier = btot_recovering_siege
 				}
-				add_province_modifier = {
+				add_permanent_province_modifier = {
 					name = "btot_sacked"
 					duration = 3650
 				}
@@ -69,7 +68,7 @@ country_event = {
 	option = {
 		name = btot_EVTOPTC1
 		trigger = {
-			from={NOT = {has_province_modifier = btot_recovering_siege}}
+			from={ NOT = { has_province_modifier = btot_recovering_siege } }
 		}
 		ai_chance = {
 			factor = 15
@@ -89,7 +88,7 @@ country_event = {
 		from = {
 			tooltip = {
 				add_base_tax = -1
-				add_province_modifier = {
+				add_permanent_province_modifier = {
 					name = "btot_recovering_siege"
 					duration = 182
 				}
@@ -285,9 +284,9 @@ province_event = {
 		}
 		if = {
 			limit = {
-				NOT = {has_province_modifier = btot_sacked}
+				NOT = { has_province_modifier = btot_sacked }
 			}
-			add_province_modifier = {
+			add_permanent_province_modifier = {
 				name = "btot_recovering_siege"
 				duration = 182
 			}
@@ -357,7 +356,7 @@ province_event = {
 	
 	trigger = {
 		has_province_flag = btot_sacked_siege
-		NOT = {has_province_modifier = btot_sacked}
+		NOT = { has_province_modifier = btot_sacked }
 	}
 	
 	mean_time_to_happen = {
@@ -366,10 +365,8 @@ province_event = {
 	
 	option = {
 		name = btot_EVTOPTA7
-		hidden = {
-			clr_province_flag = btot_sacked_siege
-		}
-		add_province_modifier = {
+		clr_province_flag = btot_sacked_siege
+		add_permanent_province_modifier = {
 			name = "btot_recovering_siege"
 			duration = 365
 		}
@@ -387,13 +384,14 @@ province_event = {
 	
 	option = {
 		name = btot_EVTOPTA8
+		set_province_flag = btot_sacked_siege
 		if = {
 			limit = {
 				has_province_modifier = btot_recovering_siege
 			}
 			remove_province_modifier = btot_recovering_siege
 		}
-		add_province_modifier = {
+		add_permanent_province_modifier = {
 			name = "btot_sacked"
 			duration = 3650
 		}
@@ -412,7 +410,7 @@ province_event = {
 	option = {
 		name = btot_EVTOPTA9
 		add_base_tax = -1
-		add_province_modifier = {
+		add_permanent_province_modifier = {
 			name = "btot_recovering_siege"
 			duration = 365
 		}
